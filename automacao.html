@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+  
+    h1 {
+      text-align: center;
+    }
+  
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  
+    .btn {
+      padding: 10px 20px;
+      margin: 10px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  
+    .btn-green {
+      background-color: #008000;
+    }
+  
+    .btn-orange {
+      background-color: #FFA500;
+    }
+  
+    .state-indicator {
+      display: block;
+      font-size: 12px;
+      margin-top: 5px;
+      color: #fff;
+      text-align: center;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+	#log {
+	background-color: #333;
+	color: #fff;
+	padding: 10px;
+	margin-top: 20px;
+	font-family: Arial, sans-serif;
+	}
+
+  </style>
+  <title>Automação </title>
+</head>
+<body>
+  <h1>Automação </h1>
+  <div class="container">
+    <button class="btn btn-green" data-cs="CS_1" data-state="0">
+      Botão 1
+      <span class="state-indicator"></span>
+    </button>
+    <button class="btn btn-green" data-cs="CS_2" data-state="0">
+      Botão 2
+      <span class="state-indicator"></span>
+    </button>
+    <button class="btn btn-green" data-cs="CS_3" data-state="0">
+      Botão 3
+      <span class="state-indicator"></span>
+    </button>
+    <button class="btn btn-green" data-cs="CS_4" data-state="0">
+      Botão 4
+      <span class="state-indicator"></span>
+    </button>
+    <button class="btn btn-green" data-cs="CS_5" data-state="0">
+      Botão 5
+      <span class="state-indicator"></span>
+    </button>
+    <button class="btn btn-green" data-cs="CS_6" data-state="0">
+      Botão 6
+      <span class="state-indicator"></span>
+    </button>
+    <button class="btn btn-green" data-cs="CS_7" data-state="0">
+      Botão 7
+      <span class="state-indicator"></span>
+    </button>
+    <button class="btn btn-green" data-cs="CS_8" data-state="0">
+      Botão 8
+      <span class="state-indicator"></span>
+    </button>
+    <button id="reset-btn" class="btn btn-orange">Reset</button>
+  </div>
+  <div id="log"></div>
+  <script>
+function sendRequest(data) {
+  const xhr = new XMLHttpRequest();
+  const url = "http://10.40.5.221:80";
+
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4) {
+      if (xhr.status === 200) {
+        logMessage("Requisição enviada com sucesso");
+      } else {
+        logMessage("Erro na requisição");
+      }
+    }
+  };
+
+  xhr.open('POST', url, true);
+  xhr.setRequestHeader('Authorization', 'Basic ' + btoa('admin:admin'));
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.send(JSON.stringify(data));
+}
+
+const resetBtn = document.getElementById('reset-btn');
+resetBtn.addEventListener('click', () => {
+  const data = {
+    "CS_1": 0,
+    "CS_2": 0,
+    "CS_3": 0,
+    "CS_4": 0,
+    "CS_5": 0,
+    "CS_6": 0,
+    "CS_7": 0,
+    "CS_8": 0,
+    "token": "0123456789ABCDEF"
+  };
+
+  logMessage("Enviando requisição: " + JSON.stringify(data));
+  sendRequest(data);
+});
+
+<div id="log"></div>
+
+function logMessage(message) {
+  const log = document.getElementById('log');
+  const timestamp = new Date().toLocaleTimeString();
+  const logEntry = document.createElement('div');
+  logEntry.textContent = "[" + timestamp + "] " + message;
+  log.appendChild(logEntry);
+}
